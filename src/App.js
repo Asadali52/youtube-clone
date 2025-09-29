@@ -1,8 +1,13 @@
 import './App.css';
+import Body from './components/Body';
+import Head from './components/Head';
 
 function App() {
   return (
-    <h1 className='bg-red-400 text-2xl text-center font-bold'>Youtube clone</h1>
+    <div>
+      <Head />
+      <Body />
+    </div>
   );
 }
 
