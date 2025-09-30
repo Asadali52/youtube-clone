@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 const VideoContainer = () => {
   const [videos, setVideos] = useState([]);
-  console.log("🚀 ~ VideoContainer ~ videos:", videos[0]);
 
   const getVideos = async () => {
     const data = await fetch(YOUTUBE_VIDEOS_API);
@@ -18,7 +17,7 @@ const VideoContainer = () => {
   }, [])
 
   return (
-    <div className='mt-4 grid grid-cols-5 max-[1350px]:grid-cols-4 max-[1024px]:grid-cols-3 gap-6'>
+    <div className='mt-4 grid grid-cols-5 max-[1350px]:grid-cols-4 max-[1024px]:grid-cols-3 max-[660px]:grid-cols-2 max-[400px]:grid-cols-1 gap-6'>
       {videos.map((video) => (
         <Link className='h-full' key={video.id} to={"/watch?v=" + video.id}>
           <VideoCard info={video} />
