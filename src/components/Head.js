@@ -12,11 +12,16 @@ const Head = () => {
   const [showSuggestions, setShowSuggestions] = useState(true);
   const [results, setResults] = useState(null);
 
-  const getSearched = async () => {
+ const getSearched = async () => {
+  try {
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const json = await data.json();
-    setResults(json[1]);
+    setResults(json[1])
+  } catch (error) {
+    console.error("Error fetching search suggestions:", error);
   }
+};
+
 
   useEffect(() => {
     const timer = setTimeout(() => {

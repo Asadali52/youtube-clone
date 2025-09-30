@@ -8,7 +8,7 @@ const WatchPage = () => {
   return (
     <div className='grid grid-cols-3 p-4 gap-4'>
       <div className='col-span-2'>
-        <iframe src={'https://www.youtube.com/embed/' + searchParams.get("v")} className='w-full h-[500px]'></iframe>
+        <iframe title={searchParams.get("v")} src={'https://www.youtube.com/embed/' + searchParams.get("v")} className='w-full h-[500px]'></iframe>
       </div>
     </div>
   );
