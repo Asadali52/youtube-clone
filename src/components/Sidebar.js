@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleMenu } from '../utils/appMainSlice';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
 
@@ -14,7 +15,9 @@ const Sidebar = () => {
     <>
       <div className={`bg-white ${sidebar ? "translate-x-0" : "-translate-x-full"} duration-300 py-5 shadow-md h-screen w-[250px] fixed top-0 z-[2000]`}>
         <ul className='space-y-2 border-b px-10 pb-2'>
-          <li>Home</li>
+          <Link onClick={backDropClose} to={"/"}>
+            <li>Home</li>
+          </Link>
           <li>Shorts</li>
           <li>Videos</li>
           <li>Live</li>
