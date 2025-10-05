@@ -1,32 +1,41 @@
 import React, { useEffect, useState } from 'react';
 
 import { Menu, CircleUser, Search } from 'lucide-react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toggleMenu } from '../utils/appMainSlice';
 import { YOUTUBE_SEARCH_API } from '../utils/constants';
+import { cacheResults } from '../utils/SearchSlice';
 
 const Head = () => {
 
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(true);
-  const [results, setResults] = useState(null);
+  const [suggestions, setSuggestions] = useState(null);
+  const searchCache = useSelector(store => store.search);
 
- const getSearched = async () => {
-  try {
-    const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
-    const json = await data.json();
-    setResults(json[1])
-  } catch (error) {
-    console.error("Error fetching search suggestions:", error);
-  }
-};
+  const getSearchedSuggestions = async () => {
+    try {
+      const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
+      const json = await data.json();
+      setSuggestions(json[1]);
 
+      dispatch(
+        cacheResults({
+          [searchQuery]: json[1]
+        })
+      )
+    } catch (error) {
+      console.error("Error fetching search suggestions:", error);
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (searchQuery) {
-        getSearched();
+      if (searchCache[searchQuery]) {
+        setSuggestions([searchCache[searchQuery]])
+      } else {
+        getSearchedSuggestions();
       }
     }, 300);
     return () => clearInterval(timer);
@@ -51,15 +60,15 @@ const Head = () => {
               onFocus={() => setShowSuggestions(true)}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder='search'
-              type="text"
+              type="search"
               className='border rounded-l-full border-r-0 py-2 px-4 border-gray-400 outline-none w-[400px] max-[900px]:w-[280px]' />
             <button className='border border-gray-400 py-2.5 px-5 text-sm rounded-r-full bg-gray-300'>
               <Search size={20} />
             </button>
           </div>
-          {showSuggestions && results &&
+          {showSuggestions && suggestions &&
             <div className='absolute rounded-lg bg-white shadow-sm w-full overflow-auto space-y-1 border'>
-              {results.map((s, i) => (
+              {suggestions.map((s, i) => (
                 <div key={i} className='flex items-center gap-2 px-2 py-1.5 hover:bg-gray-300 hover:cursor-pointer'>
                   <Search size={16} />
                   <p>{s}</p>
@@ -81,15 +90,15 @@ const Head = () => {
             onFocus={() => setShowSuggestions(true)}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder='search'
-            type="text"
+            type="search"
             className='border rounded-l-full border-r-0 py-2 px-4 border-gray-400 outline-none max-w-[400px] w-full' />
           <button className='border border-gray-400 py-2.5 px-4 text-sm rounded-r-full bg-gray-300'>
             <Search size={20} />
           </button>
         </div>
-        {showSuggestions && results &&
+        {showSuggestions && suggestions &&
           <div className='absolute bg-white shadow-sm w-[96%] rounded-lg max-w-[450px] left-1/2 overflow-hidden -translate-x-1/2 space-y-1 border'>
-            {results.map((s, i) => (
+            {suggestions.map((s, i) => (
               <div key={i} className='flex items-center gap-2 px-2 py-1.5 hover:bg-gray-300 hover:cursor-pointer'>
                 <Search size={16} />
                 <p>{s}</p>
@@ -98,7 +107,7 @@ const Head = () => {
           </div>
         }
       </div>
-      
+
     </>
   );
 };
