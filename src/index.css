@@ -11,3 +11,18 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
     display: none;
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: aliceblue;
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: red;
+    border-radius: 10px;
+}

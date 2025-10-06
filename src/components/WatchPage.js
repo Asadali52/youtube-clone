@@ -8,12 +8,18 @@ const WatchPage = () => {
   const [searchParams] = useSearchParams();
 
   return (
-    <div className='grid grid-cols-3 p-4 gap-4'>
-      <div className='col-span-2'>
-        <iframe title={searchParams.get("v")} src={'https://www.youtube.com/embed/' + searchParams.get("v")} className='w-full h-[500px]'></iframe>
-        <CommentsContainer />
+    <div className='p-4'>
+      <div className='grid grid-cols-3 max-[1150px]:grid-cols-1 gap-4'>
+        <div className='col-span-2 max-[1150px]:col-span-1'>
+          <iframe title={searchParams.get("v")} src={'https://www.youtube.com/embed/' + searchParams.get("v")} className='w-full h-[500px]'></iframe>
+        </div>
+        <LiveChat />
       </div>
-      <LiveChat/>
+      <div className='grid grid-cols-3 gap-4'>
+        <div className='col-span-2'>
+          <CommentsContainer />
+        </div>
+      </div>
     </div>
   );
 };
