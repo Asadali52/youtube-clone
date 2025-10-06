@@ -16,7 +16,7 @@ const WatchPage = () => {
         <LiveChat />
       </div>
       <div className='grid grid-cols-3 gap-4'>
-        <div className='col-span-2'>
+        <div className='col-span-2 max-[1150px]:col-span-3'>
           <CommentsContainer />
         </div>
       </div>
