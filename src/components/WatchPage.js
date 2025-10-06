@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import CommentsContainer from './CommentsContainer';
+import LiveChat from './LiveChat';
 
 const WatchPage = () => {
 
@@ -12,6 +13,7 @@ const WatchPage = () => {
         <iframe title={searchParams.get("v")} src={'https://www.youtube.com/embed/' + searchParams.get("v")} className='w-full h-[500px]'></iframe>
         <CommentsContainer />
       </div>
+      <LiveChat/>
     </div>
   );
 };
